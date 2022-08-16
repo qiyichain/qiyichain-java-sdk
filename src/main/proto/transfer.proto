@@ -1,0 +1,83 @@
+syntax = "proto3";
+option java_package = "com.qiyichain.proto";
+
+message StdTransaction {
+    repeated bytes msgs = 1;
+    Fee fee = 2;
+    repeated Signature signatures = 3;
+    string memo = 4;
+}
+
+message Fee {
+    repeated Token amount = 1;
+    int64 gas = 2;
+}
+
+message Signature {
+    bytes pubkey = 1;
+    bytes signature = 2;
+}
+
+message Token {
+    string denom = 1;
+    string amount = 2;
+
+}
+
+message MsgSend {
+    bytes fromAddress = 1;
+    bytes toAddress = 2;
+    repeated Token amount = 3;
+}
+
+message MsgNewOrder {
+    bytes sender = 1;
+    string product = 2;
+    string side = 3;
+    string price = 4;
+    string quantity = 5;
+}
+
+message MsgCancelOrder {
+    bytes sender = 1;
+    string orderId = 2;
+
+}
+
+message MsgMultiSend {
+    bytes from = 1;
+    repeated TransferUnit transfers = 2;
+}
+
+message TransferUnit {
+    bytes to = 1;
+    repeated Token coins = 2;
+}
+
+message BaseType {
+    int64 i = 1;
+    string s = 2;
+    repeated string ss = 3;
+    repeated Stu stus = 4;
+}
+
+message Stu {
+    int64 id = 1;
+}
+
+message MultiNewOrderItem {
+    string product = 1;
+    string side = 2;
+    string price = 3;
+    string quantity = 4;
+}
+
+message MsgMultiNewOrder {
+    bytes sender = 1;
+    repeated MultiNewOrderItem orderItems = 2;
+}
+
+message MsgMultiCancelOrder {
+    bytes sender = 1;
+    repeated string orderIdItems = 2;
+}
