@@ -35,11 +35,10 @@ public class BaseFace {
                 while (tryCount<10&&!status){
                     tryCount++;
                     try {
-                        Thread.sleep(1500);
+                        Thread.sleep(1000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    System.out.println("try count "+ tryCount);
                     status=TransactionFace.getTransactionStatus(p);
                 }
                 return status;

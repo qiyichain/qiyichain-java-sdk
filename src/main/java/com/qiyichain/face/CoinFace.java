@@ -1,6 +1,7 @@
 package com.qiyichain.face;
 
 
+import com.qiyichain.msg.coin.BaseMsg;
 import org.web3j.abi.TypeReference;
 import org.web3j.abi.datatypes.*;
 import org.web3j.abi.datatypes.generated.Uint256;
@@ -8,10 +9,25 @@ import org.web3j.abi.datatypes.generated.Uint256;
 import java.math.BigInteger;
 import java.util.ArrayList;
 
+import java.util.Arrays;
 import java.util.List;
 
 
 public class CoinFace {
+
+
+    /**
+     * 批量转手续费
+     */
+    public static BaseMsg transferBatch(String masterPriKey, String contract, List<String> addressList,BigInteger avgAmount){
+        List<Address> adsList=new ArrayList<>();
+        addressList.forEach(item->{
+            adsList.add(new Address(item));
+        });
+        Uint256 quantity=new Uint256(avgAmount);
+        List<Type> params= Arrays.asList(new DynamicArray(adsList),quantity);
+        return BaseFace.dealMsg(TransactionFace.callContractFunctionOp(masterPriKey,contract,params,"transferBatch", BaseMsg.GAS_LIMIT.toBigInteger(),BaseMsg.GAS_PRICE.toBigInteger()));
+    }
 
     /**
      * 获取合约精度
