@@ -355,8 +355,8 @@ public class TransactionFace {
             Function fn = new Function(funcName, inputParams,result);
             String data = FunctionEncoder.encode(fn);
             RawTransaction rawTransaction = RawTransaction.createTransaction(
-                    nonce, gasPrice, maxGas, contractAddress, data);
-            byte[] signedMessage = TransactionEncoder.signMessage(rawTransaction, credentials);
+                    nonce, gasPrice.multiply(BigInteger.TEN.pow(9)), maxGas, contractAddress, data);
+            byte[] signedMessage = TransactionEncoder.signMessage(rawTransaction,EnvInstance.getChainId(), credentials);
             String hexValue = Numeric.toHexString(signedMessage);
             System.out.println("hexRawValue ="+hexValue );
             EthSendTransaction ethSendTransaction = web3j.ethSendRawTransaction(hexValue).sendAsync().get();

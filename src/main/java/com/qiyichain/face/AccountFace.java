@@ -160,7 +160,7 @@ public class AccountFace {
 
     public static void main(String[] args) {
      EnvInstance.setEnv(new EnvBase("119.23.237.46"));
-        System.out.println(AccountFace.getMainCoinBalance("0xD0377334cd0F5a92084aaC9E0862dD8d402C33A6"));
+        System.out.println(AccountFace.getMainCoinBalance("0x895FDd62dFD6A2b0ecd5294980781EA8F078AA83"));
         System.out.println(
                 AccountFace.importByMnemonic("tag volcano eight thank tide danger coast health above argue embrace heavy"));
     }

@@ -70,7 +70,7 @@ public class EnvBase {
         this.ipAddr=ip;
         this.denom = "de";
         this.ipAddrServerUrl="http://"+ipAddr+":1317";
-        this.chainID = "2285";
+        this.chainID = "12285";
         this.hdPath = "M/44H/2285H/0H/1";
         this.pubPrefix = "depub";
 

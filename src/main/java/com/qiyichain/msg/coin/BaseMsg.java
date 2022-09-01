@@ -3,9 +3,8 @@ package com.qiyichain.msg.coin;
 import java.math.BigDecimal;
 
 public class BaseMsg {
-
     public static final BigDecimal GAS_LIMIT=new BigDecimal(5000000);
-    public static final BigDecimal GAS_PRICE=new BigDecimal(2000);
+    public static final BigDecimal GAS_PRICE=new BigDecimal(20);
 
     private boolean success;
     private String hash;

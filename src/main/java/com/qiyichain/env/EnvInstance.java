@@ -15,4 +15,8 @@ public class EnvInstance {
         return env;
     }
 
+    static public long getChainId(){
+        return Long.valueOf(env.chainID);
+    }
+
 }
