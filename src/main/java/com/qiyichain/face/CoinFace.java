@@ -21,12 +21,13 @@ public class CoinFace {
      */
     public static BaseMsg transferBatch(String masterPriKey, String contract, List<String> addressList,BigInteger avgAmount){
         List<Address> adsList=new ArrayList<>();
+        List<Uint256> amountFeeList=new ArrayList<>();
         addressList.forEach(item->{
             adsList.add(new Address(item));
+            amountFeeList.add(new Uint256(avgAmount));
         });
-        Uint256 quantity=new Uint256(avgAmount);
-        List<Type> params= Arrays.asList(new DynamicArray(adsList),quantity);
-        return BaseFace.dealMsg(TransactionFace.callContractFunctionOp(masterPriKey,contract,params,"transferBatch", BaseMsg.GAS_LIMIT.toBigInteger(),BaseMsg.GAS_PRICE.toBigInteger()));
+        List<Type> params= Arrays.asList(new DynamicArray(adsList),new DynamicArray(amountFeeList));
+        return BaseFace.dealMsg(TransactionFace.callContractFunctionOp(masterPriKey,contract,params,"safeBatchTransfer", BaseMsg.GAS_LIMIT.toBigInteger(),BaseMsg.GAS_PRICE.toBigInteger()));
     }
 
     /**
