@@ -60,3 +60,7 @@ com.qiyichain.face.TransactionFace.sendContractTrans
 ```
 com.qiyichain.face.TransactionFace.callContractFunctionOp
 ```
+### Call deploy nft contract and mint
+```
+com.qiyichain.face.NFTFace.deployERC721A
+```
