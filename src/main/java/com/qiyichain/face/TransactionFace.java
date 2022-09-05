@@ -318,8 +318,7 @@ public class TransactionFace {
                     .sendAsync()
                     .get();
             BigInteger nonce = ethGetTransactionCount.getTransactionCount();
-            //BigInteger gasPrice = ethService.getGasPrice();
-            BigInteger gasPrice=BigInteger.ZERO;
+            BigInteger gasPrice=BaseMsg.GAS_PRICE.toBigInteger();
             BigInteger value = new BigInteger(amount);
             Function fn = new Function("transfer", Arrays.asList(new Address(toAddress), new Uint256(value)), Collections.<TypeReference<?>>emptyList());
             String data = FunctionEncoder.encode(fn);
@@ -335,6 +334,40 @@ public class TransactionFace {
         }
         return null;
     }
+
+
+    /**
+     * 调用指定合约函数,此方法是调用操作合约的方法，需要消耗gas
+     * 函数名，参数列表
+     *  外部自行维护nonce
+     */
+    public static String callContractFunctionOpByNonce(String priKey, String contractAddress,
+                                                List<Type> inputParams,
+                                                String funcName, BigInteger maxGas, BigInteger gasPrice, BigInteger nonce){
+        List<TypeReference<?>> result=new ArrayList<>();
+        Credentials credentials=Credentials.create(priKey);
+        Web3j web3j=EnvInstance.getEnv().getWeb3j();
+        try {
+            EthGetTransactionCount ethGetTransactionCount =web3j.ethGetTransactionCount(credentials.getAddress(), DefaultBlockParameterName.LATEST)
+                    .sendAsync()
+                    .get();
+            Function fn = new Function(funcName, inputParams,result);
+            String data = FunctionEncoder.encode(fn);
+            RawTransaction rawTransaction = RawTransaction.createTransaction(
+                    nonce, gasPrice.multiply(BigInteger.TEN.pow(9)), maxGas, contractAddress, data);
+            byte[] signedMessage = TransactionEncoder.signMessage(rawTransaction,EnvInstance.getChainId(), credentials);
+            String hexValue = Numeric.toHexString(signedMessage);
+            System.out.println("hexRawValue ="+hexValue );
+            EthSendTransaction ethSendTransaction = web3j.ethSendRawTransaction(hexValue).sendAsync().get();
+            String transactionHash = ethSendTransaction.getTransactionHash();
+            System.out.println("txid ="+transactionHash );
+            return transactionHash;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 
 
     /**

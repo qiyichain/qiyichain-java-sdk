@@ -41,6 +41,16 @@ public class NFTFace {
     }
 
     /**
+     * 快速转移,系统自行维护nonce
+     */
+    public static String transferFast(String priKey,String contract,String toAddr,BigInteger tokenId){
+        String address = Crypto.generateAddressFromPriv(priKey);
+        String hex= HexUtil.toHexAddr(address);
+        List<Type> params= Arrays.asList(new Address(hex),new Address(toAddr),new Uint(tokenId));
+        return TransactionFace.callContractFunctionOp(priKey,contract,params,"transferFrom", BaseMsg.GAS_LIMIT.toBigInteger(),BaseMsg.GAS_PRICE.toBigInteger());
+    }
+
+    /**
      * 标准销毁
      */
     public static BaseMsg burn(String priKey,String contract,BigInteger tokenId){
@@ -66,6 +76,34 @@ public class NFTFace {
         //超过阈值，gaslimit直接10倍抬高
         BigInteger gasLimit=amount.compareTo(MAX_NUM_GAS)>0? BaseMsg.GAS_LIMIT.toBigInteger().multiply(BigInteger.TEN):BaseMsg.GAS_LIMIT.toBigInteger();
         return BaseFace.dealMsg(TransactionFace.callContractFunctionOp(priKey,factoryContract,params,"deployERC721A",gasLimit,BaseMsg.GAS_PRICE.toBigInteger()));
+    }
+
+    /**
+     * 快速提交，不验证结果
+     * @param priKey
+     * @param factoryContract
+     * @param name
+     * @param symbol
+     * @param uri
+     * @param id
+     * @param isMint
+     * @param amount
+     * @param ownerAddress
+     * @return
+     */
+    public static String deployERC721AFast(String priKey,String factoryContract,String name,String symbol,String uri,BigInteger id,
+                                        boolean isMint,BigInteger amount,String ownerAddress){
+        Utf8String nameWeb3=new Utf8String(name);
+        Utf8String symbolWeb3=new Utf8String(symbol);
+        Utf8String baseUri=new Utf8String(uri);
+        Uint256 _id=new Uint256(id);
+        Bool _isMint=new Bool(isMint);
+        Uint256 _mintQuantity=new Uint256(amount);
+        Address _owneraddr=new Address(ownerAddress);
+        List<Type> params= Arrays.asList(nameWeb3,symbolWeb3,baseUri,_id,_isMint,_mintQuantity,_owneraddr);
+        //超过阈值，gaslimit直接10倍抬高
+        BigInteger gasLimit=amount.compareTo(MAX_NUM_GAS)>0? BaseMsg.GAS_LIMIT.toBigInteger().multiply(BigInteger.TEN):BaseMsg.GAS_LIMIT.toBigInteger();
+        return TransactionFace.callContractFunctionOp(priKey,factoryContract,params,"deployERC721A",gasLimit,BaseMsg.GAS_PRICE.toBigInteger());
     }
 
 
