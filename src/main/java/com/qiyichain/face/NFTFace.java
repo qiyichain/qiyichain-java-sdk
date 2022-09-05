@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.qiyichain.env.EnvBase;
 import com.qiyichain.env.EnvInstance;
 import com.qiyichain.msg.coin.BaseMsg;
+import com.qiyichain.msg.coin.FastMsg;
 import com.qiyichain.utils.ERC721AEvent;
 import com.qiyichain.utils.HexUtil;
 import com.qiyichain.utils.crypto.Crypto;
@@ -43,11 +44,11 @@ public class NFTFace {
     /**
      * 快速转移,系统自行维护nonce
      */
-    public static String transferFast(String priKey,String contract,String toAddr,BigInteger tokenId){
+    public static FastMsg transferFast(String priKey, String contract, String toAddr, BigInteger tokenId,BigInteger nonce){
         String address = Crypto.generateAddressFromPriv(priKey);
         String hex= HexUtil.toHexAddr(address);
         List<Type> params= Arrays.asList(new Address(hex),new Address(toAddr),new Uint(tokenId));
-        return TransactionFace.callContractFunctionOp(priKey,contract,params,"transferFrom", BaseMsg.GAS_LIMIT.toBigInteger(),BaseMsg.GAS_PRICE.toBigInteger());
+        return TransactionFace.callContractFunction(priKey,contract,params,"transferFrom", BaseMsg.GAS_LIMIT.toBigInteger(),BaseMsg.GAS_PRICE.toBigInteger(),nonce);
     }
 
     /**
@@ -91,8 +92,8 @@ public class NFTFace {
      * @param ownerAddress
      * @return
      */
-    public static String deployERC721AFast(String priKey,String factoryContract,String name,String symbol,String uri,BigInteger id,
-                                        boolean isMint,BigInteger amount,String ownerAddress){
+    public static FastMsg deployERC721AFast(String priKey,String factoryContract,String name,String symbol,String uri,BigInteger id,
+                                        boolean isMint,BigInteger amount,String ownerAddress,BigInteger nonce){
         Utf8String nameWeb3=new Utf8String(name);
         Utf8String symbolWeb3=new Utf8String(symbol);
         Utf8String baseUri=new Utf8String(uri);
@@ -103,7 +104,7 @@ public class NFTFace {
         List<Type> params= Arrays.asList(nameWeb3,symbolWeb3,baseUri,_id,_isMint,_mintQuantity,_owneraddr);
         //超过阈值，gaslimit直接10倍抬高
         BigInteger gasLimit=amount.compareTo(MAX_NUM_GAS)>0? BaseMsg.GAS_LIMIT.toBigInteger().multiply(BigInteger.TEN):BaseMsg.GAS_LIMIT.toBigInteger();
-        return TransactionFace.callContractFunctionOp(priKey,factoryContract,params,"deployERC721A",gasLimit,BaseMsg.GAS_PRICE.toBigInteger());
+        return TransactionFace.callContractFunction(priKey,factoryContract,params,"deployERC721A",gasLimit,BaseMsg.GAS_PRICE.toBigInteger(),nonce);
     }
 
 
@@ -112,6 +113,9 @@ public class NFTFace {
         Optional<TransactionReceipt> optional=null;
         try {
             optional= web3j.ethGetTransactionReceipt(hash).send().getTransactionReceipt();
+            if(optional==null){
+                return null;
+            }
         } catch (IOException e) {
             return null;
         }

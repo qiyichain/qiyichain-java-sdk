@@ -6,6 +6,7 @@ import com.qiyichain.env.EnvBase;
 import com.qiyichain.env.EnvInstance;
 
 import com.qiyichain.msg.coin.BaseMsg;
+import com.qiyichain.msg.coin.FastMsg;
 import org.apache.commons.lang3.StringUtils;
 import org.web3j.abi.*;
 import org.web3j.abi.datatypes.*;
@@ -46,7 +47,14 @@ public class TransactionFace {
         BigInteger baseGasPrice =  gasPrice.getGasPrice();
         return baseGasPrice;
     }
-
+    public static BigInteger getNonce(String fromAddress) throws ExecutionException, InterruptedException {
+        Web3j web3j=EnvInstance.getEnv().getWeb3j();
+        EthGetTransactionCount ethGetTransactionCount =web3j.ethGetTransactionCount(fromAddress, DefaultBlockParameterName.LATEST)
+                .sendAsync()
+                .get();
+        BigInteger nonce = ethGetTransactionCount.getTransactionCount();
+        return nonce;
+    }
 
 
 
@@ -401,6 +409,54 @@ public class TransactionFace {
         }
         return null;
     }
+
+
+
+    /**
+     * 调用指定合约函数,返回调用状态和失败消息
+     * 函数名，参数列表
+     */
+    public static FastMsg callContractFunction(String priKey, String contractAddress,
+                                               List<Type> inputParams,
+                                               String funcName, BigInteger maxGas, BigInteger gasPrice,BigInteger nonce){
+        FastMsg fastMsg=new FastMsg();
+        List<TypeReference<?>> result=new ArrayList<>();
+        Credentials credentials=Credentials.create(priKey);
+        Web3j web3j=EnvInstance.getEnv().getWeb3j();
+        try {
+            EthGetTransactionCount ethGetTransactionCount =web3j.ethGetTransactionCount(credentials.getAddress(), DefaultBlockParameterName.LATEST)
+                    .sendAsync()
+                    .get();
+            Function fn = new Function(funcName, inputParams,result);
+            String data = FunctionEncoder.encode(fn);
+            RawTransaction rawTransaction = RawTransaction.createTransaction(
+                    nonce, gasPrice.multiply(BigInteger.TEN.pow(9)), maxGas, contractAddress, data);
+            byte[] signedMessage = TransactionEncoder.signMessage(rawTransaction,EnvInstance.getChainId(), credentials);
+            String hexValue = Numeric.toHexString(signedMessage);
+            System.out.println("hexRawValue ="+hexValue );
+            EthSendTransaction ethSendTransaction = web3j.ethSendRawTransaction(hexValue).sendAsync().get();
+            String transactionHash = ethSendTransaction.getTransactionHash();
+            System.out.println("txid ="+transactionHash );
+            if(StringUtils.isEmpty(transactionHash)){
+                fastMsg.setSuccess(false);
+                if(ethSendTransaction.getError()==null){
+                    fastMsg.setMsg("unknown:"+ethSendTransaction.getResult());
+                }else {
+                    fastMsg.setMsg(ethSendTransaction.getError().getMessage());
+                }
+            }else {
+                fastMsg.setSuccess(true);
+                fastMsg.setHash(transactionHash);
+            }
+            return fastMsg;
+        } catch (Exception e) {
+            e.printStackTrace();
+            fastMsg.setSuccess(false);
+            fastMsg.setMsg(e.getMessage());
+        }
+        return fastMsg;
+    }
+
 
     /**
      * 调用指定合约函数,此方法是调用操作合约的方法，需要消耗gas
