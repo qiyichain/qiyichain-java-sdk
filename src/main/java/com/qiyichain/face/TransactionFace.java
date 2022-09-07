@@ -265,7 +265,7 @@ public class TransactionFace {
             RawTransaction rawTransaction = RawTransaction.createEtherTransaction(
                     nonce, gasPrice, maxGas, toAddress, value);
 
-            byte[] signedMessage = TransactionEncoder.signMessage(rawTransaction, credentials);
+            byte[] signedMessage = TransactionEncoder.signMessage(rawTransaction,EnvInstance.getChainId(), credentials);
             String hexValue = Numeric.toHexString(signedMessage);
             return hexValue;
         } catch (Exception e) {
@@ -298,7 +298,7 @@ public class TransactionFace {
             RawTransaction rawTransaction = RawTransaction.createEtherTransaction(
                     nonce, gasPrice, maxGas, toAddress, value);
 
-            byte[] signedMessage = TransactionEncoder.signMessage(rawTransaction, credentials);
+            byte[] signedMessage = TransactionEncoder.signMessage(rawTransaction,EnvInstance.getChainId(), credentials);
             String hexValue = Numeric.toHexString(signedMessage);
             return hexValue;
         } catch (Exception e) {
@@ -333,7 +333,7 @@ public class TransactionFace {
             System.out.println("value="+value+",gasPrice="+gasPrice+",gasLimit="+CONTRACT_MAX_GAS+",nonce="+nonce+",address="+toAddress+"contract="+contractAddress);
             RawTransaction rawTransaction = RawTransaction.createTransaction(
                     nonce, gasPrice, CONTRACT_MAX_GAS, contractAddress, data);
-            byte[] signedMessage = TransactionEncoder.signMessage(rawTransaction, credentials);
+            byte[] signedMessage = TransactionEncoder.signMessage(rawTransaction, EnvInstance.getChainId(),credentials);
             String hexValue = Numeric.toHexString(signedMessage);
             System.out.println("hexRawValue ="+hexValue );
             return hexValue;
@@ -540,37 +540,10 @@ public class TransactionFace {
     /**
      */
     public static void main(String[] args) throws ExecutionException, InterruptedException {
-        EnvInstance.setEnv(new EnvBase("192.168.6.38"));
-        //sendErc20();
-       /* Transaction transaction=getTransaction("这里填hash");
-        if(transaction!=null){
-            String input=transaction.getInput();
-            String data = input.substring(0, 9);
-            data = data + input.substring(17, input.length());
-            org.web3j.abi.datatypes.Function function = new org.web3j.abi.datatypes.Function("transfer", Arrays.asList(), Arrays.asList(new TypeReference<Address>() {
-            }, new TypeReference<Uint256>() {
-            }));
-            List<Type> params = FunctionReturnDecoder.decode(data, function.getOutputParameters());
+        EnvInstance.setEnv(new EnvBase("119.23.210.140"));
+        Transaction transaction=TransactionFace.getTransaction("0x998a5433f1d4d1dfba57c3a0a1023ab51499df22516ede4e2bca35c996809e1d");
+        TransactionFace.getTransactionStatus("0x998a5433f1d4d1dfba57c3a0a1023ab51499df22516ede4e2bca35c996809e1d");
 
-            String fromAddress=AccountFace.hexToAddress(transaction.getFrom()); //发送方
-            String toAddress = AccountFace.hexToAddress(params.get(0).getValue().toString()); //接收方
-            String amount = params.get(1).getValue().toString(); //数量 要除以10的18次方
-        }*/
-       /* try {
-            decodeInput();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }*/
-
-       // TransactionFace.sendCommonTrans("6e8e06bc5e83d82e90c63370fcf741b0a40e48f31a5789b698002e99a0b512e8","","");
-
-        BaseMsg baseMsg=TransactionFace.sendContractTransAndGet("6e8e06bc5e83d82e90c63370fcf741b0a40e48f31a5789b698002e99a0b512e8",
-                "0xD952ab757fBB649053AE70b7056eE78a757c4Ca8","10000000000000000000","0x22736600306D03dAe8542058E67fBC8418f24290");
-        System.out.println(JSON.toJSONString(baseMsg));
     }
 
 

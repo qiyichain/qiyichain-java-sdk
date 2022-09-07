@@ -8,6 +8,7 @@ import com.qiyichain.msg.coin.FastMsg;
 import com.qiyichain.utils.ERC721AEvent;
 import com.qiyichain.utils.HexUtil;
 import com.qiyichain.utils.crypto.Crypto;
+import org.web3j.abi.TypeReference;
 import org.web3j.abi.datatypes.*;
 import org.web3j.abi.datatypes.generated.Uint256;
 import org.web3j.crypto.Credentials;
@@ -16,6 +17,7 @@ import org.web3j.protocol.core.methods.response.TransactionReceipt;
 
 import java.io.IOException;
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -50,6 +52,23 @@ public class NFTFace {
         List<Type> params= Arrays.asList(new Address(hex),new Address(toAddr),new Uint(tokenId));
         return TransactionFace.callContractFunction(priKey,contract,params,"transferFrom", BaseMsg.GAS_LIMIT.toBigInteger(),BaseMsg.GAS_PRICE.toBigInteger(),nonce);
     }
+
+    public static String ownerOf(String contract,BigInteger tokenId){
+        List<Type> params= Arrays.asList(new Uint256(tokenId));
+        List<TypeReference<?>> outputParams=new ArrayList<>();
+        outputParams.add(new TypeReference<Address>() {});
+        List<Type>  types=TransactionFace.callContractViewMethod("0x3901952De2f16ad9B8646CF59C337d0b445A81Ca",contract,"ownerOf",params,outputParams);
+        if (types!=null&&types.size()==1){
+            /**
+             * 0: uint256: amount 50000000000000000000
+             */
+
+            Address address= (Address)types.get(0);
+            return address.getValue();
+        }
+        return null;
+    }
+
 
     /**
      * 标准销毁
@@ -129,10 +148,14 @@ public class NFTFace {
 
     public static void main(String[] args) {
         EnvInstance.setEnv(new EnvBase("119.23.237.46"));
-        BaseMsg baseMsg=deployERC721A("",
+      /*  BaseMsg baseMsg=deployERC721A("",
                 "0x6B35927eA3a064ad8403C38066F1dc71735e45C2","QQQ","QQQ","URL",new BigInteger("110013"),
                 true,new BigInteger("15"),"0x2c16Af9b6c292dCae8c5F9c5C60FA6D4f3484221");
-        System.out.println(decodeContractAddressFromLog(baseMsg.getHash()));
+        System.out.println(decodeContractAddressFromLog(baseMsg.getHash()));*/
+        BaseMsg baseMsg=NFTFace.transfer("244e1d2451f52648deba34185531796897745b0797f9ed3b506cb297b99dbc90","0x4f045482392AD0cE55A38B26a2341cF8D562ea76",
+                "0xCFd6Ee2D669362bAcC011e5B86245Ced1c07700f",new BigInteger("5"));
+        System.out.println(baseMsg);
+
     }
 
 
