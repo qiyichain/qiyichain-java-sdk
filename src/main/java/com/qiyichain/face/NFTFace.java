@@ -141,7 +141,7 @@ public class NFTFace {
         TransactionReceipt transactionReceipt=optional.get();
 
         if(transactionReceipt!=null&&transactionReceipt.getLogs().size()>0){
-            return transactionReceipt.getLogs().get(0).getAddress();
+            return new Address(transactionReceipt.getLogs().get(0).getTopics().get(1)).getValue();
         }
         return null;
     }
@@ -150,11 +150,10 @@ public class NFTFace {
         EnvInstance.setEnv(new EnvBase("119.23.237.46"));
       /*  BaseMsg baseMsg=deployERC721A("",
                 "0x6B35927eA3a064ad8403C38066F1dc71735e45C2","QQQ","QQQ","URL",new BigInteger("110013"),
-                true,new BigInteger("15"),"0x2c16Af9b6c292dCae8c5F9c5C60FA6D4f3484221");
-        System.out.println(decodeContractAddressFromLog(baseMsg.getHash()));*/
-        BaseMsg baseMsg=NFTFace.transfer("244e1d2451f52648deba34185531796897745b0797f9ed3b506cb297b99dbc90","0x4f045482392AD0cE55A38B26a2341cF8D562ea76",
-                "0xCFd6Ee2D669362bAcC011e5B86245Ced1c07700f",new BigInteger("5"));
-        System.out.println(baseMsg);
+                true,new BigInteger("15"),"0x2c16Af9b6c292dCae8c5F9c5C60FA6D4f3484221");*/
+        System.out.println(decodeContractAddressFromLog("0x2e07df344340ea46626aad1d82559fb02676054472c42c208d025565403e614d"));
+
+        System.out.println();
 
     }
 

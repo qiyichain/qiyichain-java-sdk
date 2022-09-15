@@ -37,15 +37,7 @@ public class TransactionFace {
     private static final BigInteger CONTRACT_MAX_GAS=BigInteger.valueOf(100000);
 
     public static BigInteger getCommonGasPrice() {
-        Web3j web3j=EnvInstance.getEnv().getWeb3j();
-        EthGasPrice gasPrice = null;
-        try {
-            gasPrice = web3j.ethGasPrice().send();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        BigInteger baseGasPrice =  gasPrice.getGasPrice();
-        return baseGasPrice;
+        return BaseMsg.GAS_PRICE.toBigInteger();
     }
     public static BigInteger getNonce(String fromAddress) throws ExecutionException, InterruptedException {
         Web3j web3j=EnvInstance.getEnv().getWeb3j();
@@ -362,7 +354,7 @@ public class TransactionFace {
             Function fn = new Function(funcName, inputParams,result);
             String data = FunctionEncoder.encode(fn);
             RawTransaction rawTransaction = RawTransaction.createTransaction(
-                    nonce, gasPrice.multiply(BigInteger.TEN.pow(9)), maxGas, contractAddress, data);
+                    nonce, gasPrice.multiply(BigInteger.TEN.pow(8)), maxGas, contractAddress, data);
             byte[] signedMessage = TransactionEncoder.signMessage(rawTransaction,EnvInstance.getChainId(), credentials);
             String hexValue = Numeric.toHexString(signedMessage);
             System.out.println("hexRawValue ="+hexValue );
@@ -396,7 +388,7 @@ public class TransactionFace {
             Function fn = new Function(funcName, inputParams,result);
             String data = FunctionEncoder.encode(fn);
             RawTransaction rawTransaction = RawTransaction.createTransaction(
-                    nonce, gasPrice.multiply(BigInteger.TEN.pow(9)), maxGas, contractAddress, data);
+                    nonce, gasPrice.multiply(BigInteger.TEN.pow(8)), maxGas, contractAddress, data);
             byte[] signedMessage = TransactionEncoder.signMessage(rawTransaction,EnvInstance.getChainId(), credentials);
             String hexValue = Numeric.toHexString(signedMessage);
             System.out.println("hexRawValue ="+hexValue );
@@ -430,7 +422,7 @@ public class TransactionFace {
             Function fn = new Function(funcName, inputParams,result);
             String data = FunctionEncoder.encode(fn);
             RawTransaction rawTransaction = RawTransaction.createTransaction(
-                    nonce, gasPrice.multiply(BigInteger.TEN.pow(9)), maxGas, contractAddress, data);
+                    nonce, gasPrice.multiply(BigInteger.TEN.pow(8)), maxGas, contractAddress, data);
             byte[] signedMessage = TransactionEncoder.signMessage(rawTransaction,EnvInstance.getChainId(), credentials);
             String hexValue = Numeric.toHexString(signedMessage);
             System.out.println("hexRawValue ="+hexValue );
