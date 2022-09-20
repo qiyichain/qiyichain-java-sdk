@@ -34,6 +34,15 @@ public class NFTFace {
     }
 
     /**
+     * 标准铸造
+     */
+    public static BaseMsg mintByNonce(String priKey,String contract,BigInteger amount,BigInteger nonce){
+        Uint256 quantity=new Uint256(amount);
+        List<Type> params= Arrays.asList(quantity);
+        return BaseFace.dealMsg(TransactionFace.callContractFunctionOpByNonce(priKey,contract,params,"mint", BaseMsg.GAS_LIMIT.toBigInteger(),BaseMsg.GAS_PRICE.toBigInteger(),nonce));
+    }
+
+    /**
      * 标准转移
      */
     public static BaseMsg transfer(String priKey,String contract,String toAddr,BigInteger tokenId){
@@ -112,7 +121,7 @@ public class NFTFace {
      * @return
      */
     public static FastMsg deployERC721AFast(String priKey,String factoryContract,String name,String symbol,String uri,BigInteger id,
-                                        boolean isMint,BigInteger amount,String ownerAddress,BigInteger nonce){
+                                            boolean isMint,BigInteger amount,String ownerAddress,BigInteger nonce){
         Utf8String nameWeb3=new Utf8String(name);
         Utf8String symbolWeb3=new Utf8String(symbol);
         Utf8String baseUri=new Utf8String(uri);
@@ -122,10 +131,9 @@ public class NFTFace {
         Address _owneraddr=new Address(ownerAddress);
         List<Type> params= Arrays.asList(nameWeb3,symbolWeb3,baseUri,_id,_isMint,_mintQuantity,_owneraddr);
         //超过阈值，gaslimit直接10倍抬高
-        BigInteger gasLimit=amount.compareTo(MAX_NUM_GAS)>0? BaseMsg.GAS_LIMIT.toBigInteger().multiply(BigInteger.TEN):BaseMsg.GAS_LIMIT.toBigInteger();
+        BigInteger gasLimit=BaseMsg.GAS_LIMIT.toBigInteger();
         return TransactionFace.callContractFunction(priKey,factoryContract,params,"deployERC721A",gasLimit,BaseMsg.GAS_PRICE.toBigInteger(),nonce);
     }
-
 
     public static String decodeContractAddressFromLog(String hash){
         Web3j web3j= EnvInstance.getEnv().getWeb3j();
