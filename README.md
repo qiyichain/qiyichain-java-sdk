@@ -1,6 +1,3 @@
-## Platform introduction
-The qiyichain SDK provides the underlying signature and communication functions for accessing the qiyichain blockchain to interact with the qiyichain blockchain and smart contract. The qiyichain SDK is also suitable for Ethereum system access. The qiyichain SDK provides comprehensive decentralized interaction. For better user experience, it is recommended…
-
 ## Build
 ```
  mvn install
