@@ -84,66 +84,66 @@ If a dependency conflict occurs...
 > 功能编号：101  
 > 导入助记词、私钥、公钥以及奇异链地址  
 > SDK方法路径：com.qiyichain.face.AccountFace#importByMnemonic  
-> 使用方法：
-> `AccountFace.importByMnemonic("助记词内容")`
+> 使用方法：  
+> `AccountFace.importByMnemonic("助记词内容")`  
 
 <a name="zsIzm"></a>
 ### 3.1.3 导入私钥
-> 功能编号：102
-> 通过导入私钥生成公钥以及奇异链地址(注：无法还原助记词)
-> SDK方法路径：com.qiyichain.face.AccountFace#importByPrivateKey
-> 使用方法：
-> `AccountFace.importByPrivateKey("私钥内容")`
+> 功能编号：102  
+> 通过导入私钥生成公钥以及奇异链地址(注：无法还原助记词)  
+> SDK方法路径：com.qiyichain.face.AccountFace#importByPrivateKey  
+> 使用方法：  
+> `AccountFace.importByPrivateKey("私钥内容")`  
 
 <a name="MClk6"></a>
 ### 3.1.4 查询GAS余额
-> 功能编号：103
-> 查询主网GAS余额
-> SDK方法路径：com.qiyichain.face.AccountFace#getMainCoinBalance
-> 使用方法：
-> `AccountFace.getMainCoinBalance("链地址")`
+> 功能编号：103  
+> 查询主网GAS余额  
+> SDK方法路径：com.qiyichain.face.AccountFace#getMainCoinBalance  
+> 使用方法：  
+> `AccountFace.getMainCoinBalance("链地址")`  
 
 <a name="auf5p"></a>
 ### 3.1.5 查询ERC20标准余额
-> 功能编号：104
-> 查询ERC20标准合约余额
-> SDK方法路径：com.qiyichain.face.AccountFace#getContractCoinBalance
-> 使用方法：
-> `AccountFace.getContractCoinBalance("链地址","合约地址",合约精度)`
-> 注意点：合约精度请参照部署合约时的精度传入，通常是18位
+> 功能编号：104  
+> 查询ERC20标准合约余额  
+> SDK方法路径：com.qiyichain.face.AccountFace#getContractCoinBalance  
+> 使用方法：  
+> `AccountFace.getContractCoinBalance("链地址","合约地址",合约精度)`  
+> 注意点：合约精度请参照部署合约时的精度传入，通常是18位  
 
 <a name="wCTjP"></a>
 ### 3.1.6 查询合约拥有人
-> 功能编号：105
-> 查询合约拥有人(仅限提供了公共访问own字段的合约)
-> SDK方法路径：com.qiyichain.face.CoinFace#getOwner
-> 使用方法：
-> `CoinFace.getOwner("合约地址")`
+> 功能编号：105  
+> 查询合约拥有人(仅限提供了公共访问own字段的合约)  
+> SDK方法路径：com.qiyichain.face.CoinFace#getOwner  
+> 使用方法：  
+> `CoinFace.getOwner("合约地址")`  
 
 <a name="dOo4j"></a>
 ### 3.1.7 查询合约符号
-> 功能编号：106
-> 查询合约符号(仅限提供了公共访问symbol字段的合约)
-> SDK方法路径：com.qiyichain.face.CoinFace#getSymbol
-> 使用方法：
-> `CoinFace.getSymbol("合约地址")`
+> 功能编号：106  
+> 查询合约符号(仅限提供了公共访问symbol字段的合约)  
+> SDK方法路径：com.qiyichain.face.CoinFace#getSymbol  
+> 使用方法：  
+> `CoinFace.getSymbol("合约地址")`  
 
 <a name="jnl9I"></a>
 ### 3.1.8 查询合约名称
-> 功能编号：107
-> 查询合约符号(仅限提供了公共访问symbol字段的合约)
-> SDK方法路径：com.qiyichain.face.CoinFace#getName
-> 使用方法：
-> `CoinFace.getName("合约地址")`
+> 功能编号：107  
+> 查询合约符号(仅限提供了公共访问symbol字段的合约)  
+> SDK方法路径：com.qiyichain.face.CoinFace#getName  
+> 使用方法：  
+> `CoinFace.getName("合约地址")`  
 
 <a name="WvVCh"></a>
 ### 3.1.9 部署数字藏品合约
-> 功能编号：108
-> 发布数字藏品智能合约,ERC721A标准(注：需白名单账户地址方可调用)
-> SDK方法路径：com.qiyichain.face.NFTFace#deployERC721AFast
-> 使用方法：
-> `NFTFace.deployERC721AFast(...)`
-> 参数说明：
+> 功能编号：108  
+> 发布数字藏品智能合约,ERC721A标准(注：需白名单账户地址方可调用)  
+> SDK方法路径：com.qiyichain.face.NFTFace#deployERC721AFast  
+> 使用方法：  
+> `NFTFace.deployERC721AFast(...)`  
+> 参数说明：  
 
 | 参数名 | 说明 |
 | --- | --- |
@@ -160,12 +160,12 @@ If a dependency conflict occurs...
 
 <a name="pUCMM"></a>
 ### 3.2.0 铸造藏品
-> 功能编号：109
-> 铸造(锻造)数字藏品
-> SDK方法路径：com.qiyichain.face.NFTFace#mintByNonce
-> 使用方法：
-> `NFTFace.mintByNonce(...)`
-> 参数说明：
+> 功能编号：109  
+> 铸造(锻造)数字藏品  
+> SDK方法路径：com.qiyichain.face.NFTFace#mintByNonce  
+> 使用方法：  
+> `NFTFace.mintByNonce(...)`  
+> 参数说明：  
 
 | 参数名 | 说明 |
 | --- | --- |
@@ -176,28 +176,28 @@ If a dependency conflict occurs...
 
 <a name="JO6Mj"></a>
 ### 3.2.1 获取藏品部署合约
-> 功能编号：110
-> 根据部署交易hash解析合约地址
-> SDK方法路径：com.qiyichain.face.NFTFace#decodeContractAddressFromLog
-> 使用方法：
-> `NFTFace.decodeContractAddressFromLog("交易Hash")`
-> 参数说明：交易hash为 [部署藏品接口](#WvVCh)返回的hash字段
+> 功能编号：110  
+> 根据部署交易hash解析合约地址  
+> SDK方法路径：com.qiyichain.face.NFTFace#decodeContractAddressFromLog  
+> 使用方法：  
+> `NFTFace.decodeContractAddressFromLog("交易Hash")`  
+> 参数说明：交易hash为 [部署藏品接口](#WvVCh)返回的hash字段  
 
 <a name="ORLay"></a>
 ### 3.2.2 查询藏品拥有人
-> 功能编号：111
-> 查询指定藏品合约的token持有人地址
-> SDK方法路径：com.qiyichain.face.NFTFace#ownerOf
-> 使用方法：
-> `CoinFace.ownerOf("合约地址","藏品编号")`
+> 功能编号：111  
+> 查询指定藏品合约的token持有人地址  
+> SDK方法路径：com.qiyichain.face.NFTFace#ownerOf  
+> 使用方法：  
+> `CoinFace.ownerOf("合约地址","藏品编号")`  
 
 <a name="ABeiG"></a>
 ### 3.2.3 转移藏品
-> 功能编号：112
-> 查询指定藏品合约的token持有人地址
-> SDK方法路径：com.qiyichain.face.NFTFace#transferFast
-> 使用方法：
-> `CoinFace.transferFast(...)`
+> 功能编号：112  
+> 查询指定藏品合约的token持有人地址  
+> SDK方法路径：com.qiyichain.face.NFTFace#transferFast  
+> 使用方法：  
+> `CoinFace.transferFast(...)`  
 
 | 参数名 | 说明 |
 | --- | --- |
@@ -209,11 +209,11 @@ If a dependency conflict occurs...
 
 <a name="OVa4s"></a>
 ### 3.2.4 销毁藏品
-> 功能编号：113
-> 查询指定藏品合约的token持有人地址
-> SDK方法路径：com.qiyichain.face.NFTFace#burnFast
-> 使用方法：
-> `CoinFace.burnFast(...)`
+> 功能编号：113  
+> 查询指定藏品合约的token持有人地址  
+> SDK方法路径：com.qiyichain.face.NFTFace#burnFast  
+> 使用方法：  
+> `CoinFace.burnFast(...)`  
 
 | 参数名 | 说明 |
 | --- | --- |
@@ -224,28 +224,28 @@ If a dependency conflict occurs...
 
 <a name="weo9b"></a>
 ### 3.2.5 查询交易
-> 功能编号：114
-> 查询GAS转移、藏品部署、铸造、销毁等跟写合约有关的任何交易结果(结果存在一定延迟，若返回false并不代表交易失败，需间隔1秒重试，通常重试10次之后仍然false则表示失败)
-> SDK方法路径：com.qiyichain.face.TransactionFace#getTransactionStatus
-> 使用方法：
-> `TransactionFace.getTransactionStatus("交易hash")`
+> 功能编号：114  
+> 查询GAS转移、藏品部署、铸造、销毁等跟写合约有关的任何交易结果(结果存在一定延迟，若返回false并不代表交易失败，需间隔1秒重试，通常重试10次之后仍然false则表示失败)  
+> SDK方法路径：com.qiyichain.face.TransactionFace#getTransactionStatus  
+> 使用方法：  
+> `TransactionFace.getTransactionStatus("交易hash")`  
 
 <a name="vL1eV"></a>
 ### 3.2.6 转移GAS
-> 功能编号：115
-> 转移GAS到指定地址
-> SDK方法路径：com.qiyichain.face.TransactionFace#sendCommonAndGet
-> 使用方法：
-> `TransactionFace.sendCommonAndGet("交易发起人私钥","数量","接收人地址")`
+> 功能编号：115  
+> 转移GAS到指定地址  
+> SDK方法路径：com.qiyichain.face.TransactionFace#sendCommonAndGet  
+> 使用方法：  
+> `TransactionFace.sendCommonAndGet("交易发起人私钥","数量","接收人地址")`  
 
 
 <a name="dcc05"></a>
 ### 3.2.7 通用写合约
-> 功能编号：116
-> 通用写合约方法,自定义的输入参数以及方法名，如需部署自定义合约，需开通白名单功能
-> SDK方法路径：com.qiyichain.face.TransactionFace#callContractFunctionOpByNonce
-> 使用方法：
-> `CoinFace.callContractFunctionOpByNonce(...)`
+> 功能编号：116  
+> 通用写合约方法,自定义的输入参数以及方法名，如需部署自定义合约，需开通白名单功能  
+> SDK方法路径：com.qiyichain.face.TransactionFace#callContractFunctionOpByNonce  
+> 使用方法：  
+> `CoinFace.callContractFunctionOpByNonce(...)`  
 
 | 参数名 | 说明 |
 | --- | --- |
@@ -259,11 +259,11 @@ If a dependency conflict occurs...
 
 <a name="VXoHX"></a>
 ### 3.2.7 通用读合约
-> 功能编号：117
-> 通用写合约方法,自定义的输入参数以及方法名，如需部署自定义合约，需开通白名单功能
-> SDK方法路径：com.qiyichain.face.TransactionFace#callContractViewMethod
-> 使用方法：
-> `CoinFace.callContractViewMethod(...)`
+> 功能编号：117  
+> 通用写合约方法,自定义的输入参数以及方法名，如需部署自定义合约，需开通白名单功能  
+> SDK方法路径：com.qiyichain.face.TransactionFace#callContractViewMethod  
+> 使用方法：  
+> `CoinFace.callContractViewMethod(...)`  
 
 | 参数名 | 说明 |
 | --- | --- |
@@ -274,11 +274,11 @@ If a dependency conflict occurs...
 
 <a name="G5qAO"></a>
 ### 3.2.8 账户当前Nonce
-> 功能编号：118
-> 查询账户地址当前的Nonce值，由于交易是节点排序打包，若发送nonce冲突，则按gas最高的优先被打包，交易存在被覆盖的可能，此方法可返回不同状态下的nonce值，值得注意的是，不管何种状态，交易提交前，请读取最新的nonce值。
-> SDK方法路径：com.qiyichain.face.TransactionFace#getNonce
-> 使用方法：
-> `CoinFace.getNonce(...)`
+> 功能编号：118  
+> 查询账户地址当前的Nonce值，由于交易是节点排序打包，若发送nonce冲突，则按gas最高的优先被打包，交易存在被覆盖的可能，此方法可返回不同状态下的nonce值，值得注意的是，不管何种状态，交易提交前，请读取最新的nonce值。  
+> SDK方法路径：com.qiyichain.face.TransactionFace#getNonce  
+> 使用方法：  
+> `CoinFace.getNonce(...)`  
 
 | 参数名 | 说明 |
 | --- | --- |
