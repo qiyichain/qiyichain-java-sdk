@@ -37,7 +37,7 @@ public class CoinFace {
         List<Type> list=new ArrayList<>();
         List<TypeReference<?>> outputParams=new ArrayList<>();
         outputParams.add(new TypeReference<Uint256>() {});
-        List<Type>  types=TransactionFace.callContractViewMethod("0x3901952De2f16ad9B8646CF59C337d0b445A81Ca",contract,"decimals",list,outputParams);
+        List<Type>  types=TransactionFace.callContractViewMethod(contract,"decimals",list,outputParams);
         if (types!=null&&types.size()==1){
             /**
              * 0: uint256: amount 50000000000000000000
@@ -59,7 +59,7 @@ public class CoinFace {
         List<Type> list=new ArrayList<>();
         List<TypeReference<?>> outputParams=new ArrayList<>();
         outputParams.add(new TypeReference<Uint256>() {});
-        List<Type>  types=TransactionFace.callContractViewMethod("0x3901952De2f16ad9B8646CF59C337d0b445A81Ca",contract,"decimals",list,outputParams);
+        List<Type>  types=TransactionFace.callContractViewMethod(contract,"decimals",list,outputParams);
         if (types!=null&&types.size()==1){
             /**
              * 0: uint256: amount 50000000000000000000
@@ -81,7 +81,7 @@ public class CoinFace {
         List<Type> list=new ArrayList<>();
         List<TypeReference<?>> outputParams=new ArrayList<>();
         outputParams.add(new TypeReference<Utf8String>() {});
-        List<Type>  types=TransactionFace.callContractViewMethod("0x3901952De2f16ad9B8646CF59C337d0b445A81Ca",contract,"symbol",list,outputParams);
+        List<Type>  types=TransactionFace.callContractViewMethod(contract,"symbol",list,outputParams);
         if (types!=null&&types.size()==1){
             Utf8String amount= (Utf8String)types.get(0);
             return amount.getValue();
@@ -93,7 +93,7 @@ public class CoinFace {
         List<Type> list=new ArrayList<>();
         List<TypeReference<?>> outputParams=new ArrayList<>();
         outputParams.add(new TypeReference<Address>() {});
-        List<Type>  types=TransactionFace.callContractViewMethod("0x3901952De2f16ad9B8646CF59C337d0b445A81Ca",contract,"owner",list,outputParams);
+        List<Type>  types=TransactionFace.callContractViewMethod(contract,"owner",list,outputParams);
         if (types!=null&&types.size()==1){
             Address address= (Address)types.get(0);
             return address.getValue();
@@ -106,7 +106,7 @@ public class CoinFace {
         List<Type> list=new ArrayList<>();
         List<TypeReference<?>> outputParams=new ArrayList<>();
         outputParams.add(new TypeReference<Utf8String>() {});
-        List<Type>  types=TransactionFace.callContractViewMethod("0x3901952De2f16ad9B8646CF59C337d0b445A81Ca",contract,"name",list,outputParams);
+        List<Type>  types=TransactionFace.callContractViewMethod(contract,"name",list,outputParams);
         if (types!=null&&types.size()==1){
             Utf8String amount= (Utf8String)types.get(0);
             return amount.getValue();

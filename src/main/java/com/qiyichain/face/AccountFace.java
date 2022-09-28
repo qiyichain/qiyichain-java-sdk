@@ -142,7 +142,7 @@ public class AccountFace {
         List<Type> params= Arrays.asList(new Address(address));
         List<TypeReference<?>> outputParams=new ArrayList<>();
         outputParams.add(new TypeReference<Uint256>() {});
-        List<Type>  types=TransactionFace.callContractViewMethod("0x3901952De2f16ad9B8646CF59C337d0b445A81Ca",contractAddress,"balanceOf",params,outputParams);
+        List<Type>  types=TransactionFace.callContractViewMethod(contractAddress,"balanceOf",params,outputParams);
         if (types!=null&&types.size()==1){
             /**
              * 0: uint256: amount 50000000000000000000
@@ -160,9 +160,9 @@ public class AccountFace {
 
     public static void main(String[] args) {
      EnvInstance.setEnv(new EnvBase("119.23.237.46"));
-        System.out.println(AccountFace.getMainCoinBalance("0x895FDd62dFD6A2b0ecd5294980781EA8F078AA83"));
-        System.out.println(
-                AccountFace.importByMnemonic("tag volcano eight thank tide danger coast health above argue embrace heavy"));
+
+        System.out.println(AccountFace.createAccount());
+        System.out.println(AccountFace.createAccount());
     }
 
 }

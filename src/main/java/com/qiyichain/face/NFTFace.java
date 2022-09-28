@@ -66,7 +66,7 @@ public class NFTFace {
         List<Type> params= Arrays.asList(new Uint256(tokenId));
         List<TypeReference<?>> outputParams=new ArrayList<>();
         outputParams.add(new TypeReference<Address>() {});
-        List<Type>  types=TransactionFace.callContractViewMethod("0x3901952De2f16ad9B8646CF59C337d0b445A81Ca",contract,"ownerOf",params,outputParams);
+        List<Type>  types=TransactionFace.callContractViewMethod(contract,"ownerOf",params,outputParams);
         if (types!=null&&types.size()==1){
             /**
              * 0: uint256: amount 50000000000000000000
@@ -82,30 +82,31 @@ public class NFTFace {
     /**
      * 标准销毁
      */
-    public static BaseMsg burn(String priKey,String contract,BigInteger tokenId){
+    public static BaseMsg burn(String priKey,String contract,BigInteger tokenId,BigInteger nonce){
+        Uint256 tokenId256=new Uint256(tokenId);
+        List<Type> params= Arrays.asList(tokenId256);
+        return BaseFace.dealMsg(TransactionFace.callContractFunctionOpByNonce(priKey,contract,params,"burn", BaseMsg.GAS_LIMIT.toBigInteger(),BaseMsg.GAS_PRICE.toBigInteger(),nonce));
+    }
+
+    /**
+     * 标准销毁
+     */
+    public static FastMsg burnFast(String priKey,String contract,BigInteger tokenId,BigInteger nonce){
+        Uint256 tokenId256=new Uint256(tokenId);
+        List<Type> params= Arrays.asList(tokenId256);
+        return TransactionFace.callContractFunction(priKey,contract,params,"burn", BaseMsg.GAS_LIMIT.toBigInteger(),BaseMsg.GAS_PRICE.toBigInteger(),nonce);
+    }
+
+
+    /**
+     * 标准销毁
+     */
+    public static BaseMsg burnByNonce(String priKey,String contract,BigInteger tokenId){
         Uint256 tokenId256=new Uint256(tokenId);
         List<Type> params= Arrays.asList(tokenId256);
         return BaseFace.dealMsg(TransactionFace.callContractFunctionOp(priKey,contract,params,"burn", BaseMsg.GAS_LIMIT.toBigInteger(),BaseMsg.GAS_PRICE.toBigInteger()));
     }
 
-    /**
-     * 创建+铸造
-     *
-     */
-    public static BaseMsg deployERC721A(String priKey,String factoryContract,String name,String symbol,String uri,BigInteger id,
-                                        boolean isMint,BigInteger amount,String ownerAddress){
-        Utf8String nameWeb3=new Utf8String(name);
-        Utf8String symbolWeb3=new Utf8String(symbol);
-        Utf8String baseUri=new Utf8String(uri);
-        Uint256 _id=new Uint256(id);
-        Bool _isMint=new Bool(isMint);
-        Uint256 _mintQuantity=new Uint256(amount);
-        Address _owneraddr=new Address(ownerAddress);
-        List<Type> params= Arrays.asList(nameWeb3,symbolWeb3,baseUri,_id,_isMint,_mintQuantity,_owneraddr);
-        //超过阈值，gaslimit直接10倍抬高
-        BigInteger gasLimit=amount.compareTo(MAX_NUM_GAS)>0? BaseMsg.GAS_LIMIT.toBigInteger().multiply(BigInteger.TEN):BaseMsg.GAS_LIMIT.toBigInteger();
-        return BaseFace.dealMsg(TransactionFace.callContractFunctionOp(priKey,factoryContract,params,"deployERC721A",gasLimit,BaseMsg.GAS_PRICE.toBigInteger()));
-    }
 
     /**
      * 快速提交，不验证结果

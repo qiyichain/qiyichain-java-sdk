@@ -7,6 +7,7 @@ import com.qiyichain.env.EnvInstance;
 
 import com.qiyichain.msg.coin.BaseMsg;
 import com.qiyichain.msg.coin.FastMsg;
+import com.qiyichain.utils.crypto.AddressUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.web3j.abi.*;
 import org.web3j.abi.datatypes.*;
@@ -16,6 +17,7 @@ import org.web3j.crypto.RawTransaction;
 import org.web3j.crypto.TransactionEncoder;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.DefaultBlockParameterName;
+import org.web3j.protocol.core.Response;
 import org.web3j.protocol.core.methods.response.*;
 import org.web3j.utils.Convert;
 import org.web3j.utils.Numeric;
@@ -48,7 +50,20 @@ public class TransactionFace {
         return nonce;
     }
 
-
+    public static   BigInteger getNonce(String fromAddress,DefaultBlockParameterName type) {
+        Web3j web3j= EnvInstance.getEnv().getWeb3j();
+        EthGetTransactionCount ethGetTransactionCount = null;
+        try {
+            ethGetTransactionCount = web3j.ethGetTransactionCount(fromAddress, type)
+                    .sendAsync()
+                    .get();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        BigInteger nonce = ethGetTransactionCount.getTransactionCount();
+        return nonce;
+    }
 
     //获取主链推荐手续费
     public static BigDecimal getEthFee(){
@@ -102,7 +117,6 @@ public class TransactionFace {
         Optional<TransactionReceipt> optional=null;
         try {
             optional= web3j.ethGetTransactionReceipt(hash).send().getTransactionReceipt();
-
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -486,7 +500,7 @@ public class TransactionFace {
     /**
      * 无需消耗gas的合约调用，仅限支持view的方法
      */
-    public static List<Type> callContractViewMethod(String from,String contract,String method,List<Type> inputParams,List<TypeReference<?>> outputParams){
+    public static List<Type> callContractViewMethod(String contract,String method,List<Type> inputParams,List<TypeReference<?>> outputParams){
         Web3j web3j=EnvInstance.getEnv().getWeb3j();
 
         Function function = new Function(
@@ -498,7 +512,7 @@ public class TransactionFace {
         EthCall response = null;
         try {
             response = web3j.ethCall(
-                    org.web3j.protocol.core.methods.request.Transaction.createEthCallTransaction(from,contract, encodedFunction),
+                    org.web3j.protocol.core.methods.request.Transaction.createEthCallTransaction(AddressUtil.VIEW_FROM_ADDRESS,contract, encodedFunction),
             DefaultBlockParameterName.LATEST).sendAsync().get();
         } catch (Exception e) {
             e.printStackTrace();
@@ -529,51 +543,5 @@ public class TransactionFace {
         }
         return null;
     }
-    /**
-     */
-    public static void main(String[] args) throws ExecutionException, InterruptedException {
-        EnvInstance.setEnv(new EnvBase("119.23.210.140"));
-        Transaction transaction=TransactionFace.getTransaction("0x998a5433f1d4d1dfba57c3a0a1023ab51499df22516ede4e2bca35c996809e1d");
-        TransactionFace.getTransactionStatus("0x998a5433f1d4d1dfba57c3a0a1023ab51499df22516ede4e2bca35c996809e1d");
-
-    }
-
-
-
-    private static void  testStatus(String hs){
-        System.out.println(TransactionFace.getTransactionStatus(hs));
-    }
-
-
-    private static void testMethodSign(){
-        System.out.println(FunctionEncoder.encode(new Function("redpackCreated",new ArrayList<>(),new ArrayList<>())));
-    }
-
-
-    private static void sendErc20(){
-        System.out.println(sendContractTransAndGet("551ab8527bc625e607b5ca58aa9aeb3b617d2f297d512b322ecc042d21a3d5c6","0xaED255425d58ADbd7f0dFcE809943eA5F4DcE432",new BigInteger("500").multiply(BigInteger.TEN.pow(18))+"",AccountFace.addressToHex("de18wryxwsvh9yfpn4m087mze8n4s7dl0kjepxhm2")));
-    }
-
-
-
-
-    public static void decodeInput() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        String inputData = "0xa9059cbb00000000000000000000000035f5992e40facfcad742fcfcc1d94ee0581e9cb100000000000000000000000000000000000000000000003635c9adc5dea00000";
-        String method = inputData.substring(0, 10);
-        System.out.println(method);
-        String to = inputData.substring(10, 74);
-        String value = inputData.substring(74);
-        Method refMethod = TypeDecoder.class.getDeclaredMethod("decode", String.class, int.class, Class.class);
-        refMethod.setAccessible(true);
-        Address address = (Address) refMethod.invoke(null, to, 0, Address.class);
-        System.out.println(address.toString());
-        Uint256 amount = (Uint256) refMethod.invoke(null, value, 0, Uint256.class);
-        System.out.println(amount.getValue());
-
-
-    }
-
-
-
 
 }

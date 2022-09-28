@@ -95,6 +95,37 @@ public class EnvBase {
         this.jsonrpcClient=jsonrpcClient;
     }
 
+    public EnvBase(String ip,String chainID) {
+        this.restServerUrl = "http://"+ip+":8545";
+        this.mainPrefix = "de";
+        this.ipAddr=ip;
+        this.denom = "de";
+        this.ipAddrServerUrl="http://"+ipAddr+":1317";
+        this.chainID = chainID;
+        this.hdPath = "M/44H/2285H/0H/1";
+        this.pubPrefix = "depub";
+
+        this.accountUrlPath = "/accounts/";
+        OkHttpClient.Builder builder = new OkHttpClient.Builder();
+        builder.connectTimeout(30*1000, TimeUnit.MILLISECONDS);
+        builder.writeTimeout(30*1000, TimeUnit.MILLISECONDS);
+        builder.readTimeout(30*1000, TimeUnit.MILLISECONDS);
+        OkHttpClient httpClient = builder.build();
+        Web3j web3j = Web3j.build(new HttpService(this.restServerUrl,httpClient,false));
+        this.web3j=web3j;
+
+        JsonRpcHttpClient jsonrpcClient = null;
+        try {
+            jsonrpcClient = new JsonRpcHttpClient(new URL(this.restServerUrl));
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Content-Type", "application/json");
+        jsonrpcClient.setHeaders(headers);
+        this.jsonrpcClient=jsonrpcClient;
+    }
+
     public String getIpAddrServerUrl() {
         return ipAddrServerUrl;
     }

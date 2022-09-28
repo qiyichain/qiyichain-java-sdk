@@ -15,6 +15,7 @@ import java.security.NoSuchAlgorithmException;
 import static org.bitcoinj.core.ECKey.CURVE;
 
 public class AddressUtil {
+    public static final String VIEW_FROM_ADDRESS="";
 
     public static String createNewAddressSecp256k1(String mainPrefix, byte[] publickKey) throws Exception {
         // convert 33 bytes public key to 65 bytes public key
