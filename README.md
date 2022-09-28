@@ -73,17 +73,17 @@ If a dependency conflict occurs...
 注意：使用非离线功能时，例如查询和写功能时，请先初始化请求信息：<br />`EnvInstance._setEnv_(new EnvBase("接口地址","链ID"));`<br />关于链ID： 主网(2285)，测试网(12285)
 <a name="KpHKf"></a>
 ### 3.1.1 创建钱包
-> 功能编号：100
-> 创建助记词、私钥、公钥以及奇异链地址
-> SDK方法路径：com.qiyichain.face.AccountFace#createAccount
+> 功能编号：100  
+> 创建助记词、私钥、公钥以及奇异链地址  
+> SDK方法路径：com.qiyichain.face.AccountFace#createAccount  
 > 使用方法：
 > `AccountFace.createAccount()`
 
 <a name="A0qOc"></a>
 ### 3.1.2 导入助记词
-> 功能编号：101
-> 导入助记词、私钥、公钥以及奇异链地址
-> SDK方法路径：com.qiyichain.face.AccountFace#importByMnemonic
+> 功能编号：101  
+> 导入助记词、私钥、公钥以及奇异链地址  
+> SDK方法路径：com.qiyichain.face.AccountFace#importByMnemonic  
 > 使用方法：
 > `AccountFace.importByMnemonic("助记词内容")`
 
